@@ -1,3 +1,8 @@
+const seedrandom = require("seedrandom");
+const seed = "perc-1";
+
+seedrandom(seed, { global: true });
+
 const trainInputs = [
   [2, 7],
   [3, 6],
@@ -70,15 +75,20 @@ class Perceptron {
   }
 }
 
-const perceptron = new Perceptron();
-const EPOCHS = 10;
+const perceptron = new Perceptron(0.07);
+const EPOCHS = 9;
 
 for (let epoch = 0; epoch < EPOCHS; epoch++) {
   perceptron.train(trainInputs, trainLabels);
+
+  const trainingAccuracy = perceptron.calculateAccuracy(
+    trainInputs,
+    trainLabels
+  );
+  const testingAccuracy = perceptron.calculateAccuracy(testInputs, testLabels);
+
+  console.log(`Epoch ${epoch + 1}`);
+  console.log(`Training accuracy: ${trainingAccuracy}%`);
+  console.log(`Testing accuracy: ${testingAccuracy}%`);
+  console.log("---------------------------------------");
 }
-
-const trainingAccuracy = perceptron.calculateAccuracy(trainInputs, trainLabels);
-const testingAccuracy = perceptron.calculateAccuracy(testInputs, testLabels);
-
-console.log(`Training accuracy: ${trainingAccuracy}%`);
-console.log(`Testing accuracy: ${testingAccuracy}%`);
